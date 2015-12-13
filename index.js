@@ -13,9 +13,10 @@ var multer = new Multer({
         destination: function (req, file, cb) {
             var dest = path.join(PATH, 'static');
             fs.exists(dest, function (exists) {
-                if(!exists) fs.mkdir(dest, function (err) {
+                if(!exists) return fs.mkdir(dest, function (err) {
                     if(!err) cb(null, dest);
                 });
+                cb(null, dest);
             });
         },
         filename: function (req, file, cb) {
