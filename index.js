@@ -29,7 +29,7 @@ var multer = new Multer({
 });
 
 module.exports = new API.RouteMiddleware('booljs-multer', {
-    action: function (url, router) {
+    action: function (_instance, router, route) {
         router.use('/static', sstatic('static'));
         return multer.any();
     },
