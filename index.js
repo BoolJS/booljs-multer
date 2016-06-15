@@ -39,4 +39,4 @@ module.exports = class BoolJsMulter extends API.RouteMiddleware {
         return multer.any();
     }
 
-});
+};
