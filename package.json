@@ -36,7 +36,7 @@
     "uuid": "^2.0.1"
   },
   "peerDependencies": {
-    "bool.js": ">=0.4.3"
+    "booljs-api": ">=0.3.2"
   },
   "devDependencies": {
     "chai": "^3.4.1",

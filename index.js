@@ -1,6 +1,6 @@
 'use strict';
 
-var API     = require('bool.js/api')
+var API     = require('bool.js-api')
 ,   Multer  = require('multer')
 ,   sstatic = require('serve-static');
 
@@ -28,13 +28,15 @@ var multer = new Multer({
     })
 });
 
-module.exports = new API.RouteMiddleware('booljs-multer', {
-    action: function (_instance, router, route) {
+module.exports = class BoolJsMulter extends API.RouteMiddleware {
+    constructor(){
+        super('booljs-multer', 'mandatory', {
+            files: true
+        });
+    }
+    action(_instance, router, route) {
         router.use('/static', sstatic('static'));
         return multer.any();
-    },
-    type: 'mandatory',
-    policies: {
-        files: true
     }
+
 });
