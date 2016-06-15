@@ -1,6 +1,6 @@
 'use strict';
 
-var API     = require('bool.js-api')
+var API     = require('booljs-api')
 ,   Multer  = require('multer')
 ,   sstatic = require('serve-static');
 
