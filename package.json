@@ -1,10 +1,10 @@
 {
-  "name": "booljs-multer",
+  "name": "@booljs/multer",
   "version": "0.2.0",
   "description": "RouteMiddleware to allow developers support file uploads in their APIs",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha --recursive test"
+    "test": "NODE_ENV=test mocha --exit test/*"
   },
   "repository": {
     "type": "git",
@@ -18,12 +18,9 @@
     "api",
     "middleware"
   ],
-  "author": {
-    "name": "Pablo Andrés Dorado Suárez",
-    "mail": "pandres95@booljs.co"
-  },
+  "author": "Pablo Andrés Dorado Suárez <hola@pablodorado.com>",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=10.0.0"
   },
   "license": "GPL-3.0",
   "bugs": {
@@ -36,12 +33,13 @@
     "uuid": "^2.0.1"
   },
   "peerDependencies": {
-    "booljs-api": ">=0.3.2"
+    "@booljs/api": "^0.6.0",
+    "@booljs/express": "^0.7.0"
   },
   "devDependencies": {
-    "chai": "^3.4.1",
-    "mocha": "^2.3.4",
-    "supertest": "^1.1.0",
-    "supertest-as-promised": "^2.0.2"
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "supertest": "^3.3.0",
+    "supertest-as-promised": "^4.0.2"
   }
 }

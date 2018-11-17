@@ -1,29 +1,23 @@
-/* global describe, before, it */
 'use strict';
 
+const resolver = require('../utils/resolve');
+const Bool = require('booljs');
+const Agent = require('supertest-as-promised');
+
 describe('Bool.js', function () {
-    var resolver    = require('../utils/resolve')
-    ,   booljs      = require('bool.js')
-    ,   Agent       = require('supertest-as-promised')
-    ,   chai        = require('chai')
-    ,   expect      = chai.expect
-    ,   agent;
-
-    before(() => {
-        return (booljs('com.example.api', [ resolver('') ])
+    let agent;
+    
+    before(async () => {
+        const { server } = await new Bool('com.example.api', [ '@booljs/express', resolver('') ])
             .setBase('example')
-            .run()
-        ).then(function (api) {
-            agent = new Agent(api.server);
-        });
+            .setServerDrivers('booljs.express')
+            .run();
+        
+        agent = new Agent(server);
     });
 
-    it('uploads a file', () => {
-        return (agent
-            .post('/dog')
-            .attach('file', 'samples/husky.jpg')
-            .expect(200)
-        );
-    });
-
+    it('POST /dog -> File -> 200', () => agent
+        .post('/dog')
+        .attach('file', 'samples/husky.jpg')
+        .expect(200));
 });

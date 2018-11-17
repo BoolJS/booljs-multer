@@ -11,7 +11,6 @@ module.exports = class DogController {
         new this.Json().promise(new this.Dog().list(), response, next);
     }
     upload ({ files: [ file ] = [] }, response) {
-        log.debug(file);
         if (file !== undefined) {
             new this.Json().standard(file, response);
         } else {

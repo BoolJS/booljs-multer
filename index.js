@@ -1,29 +1,35 @@
 'use strict';
 
-var API     = require('booljs-api')
-,   Multer  = require('multer')
-,   sstatic = require('serve-static');
+const API = require('@booljs/api');
+const Multer = require('multer');
+const ServeStatic = require('serve-static');
 
-var fs      = require('fs')
-,   path    = require('path')
-,   uuid    = require('uuid');
+const FS = require('fs').promises;
+const { extname, join } = require('path');
+const Uuid = require('uuid');
 
 var multer = new Multer({
     storage: Multer.diskStorage({
-        destination: function (req, file, cb) {
-            var dest = path.join(PATH, 'static');
-            fs.exists(dest, function (exists) {
-                if(!exists) return fs.mkdir(dest, function (err) {
-                    if(!err) cb(null, dest);
-                });
-                cb(null, dest);
-            });
+        async destination (request, file, callback) {
+            const destination = join(PATH, 'static');
+            
+            try {
+                const stat = await FS.stat(destination);
+                if (!stat.isDirectory()) {
+                    await FS.mkdir(destination);
+                    return callback(null, destination);
+                }
+                
+                return callback(null, destination);
+            } catch (error) {
+                return callback(error);
+            }
         },
-        filename: function (req, file, cb) {
-            var name = uuid.v4()
-            ,   ext  = path.extname(file.originalname);
+        filename (request, { originalname }, callback) {
+            const name = Uuid.v4()
+            const ext  = extname(originalname);
 
-            cb(null, `${name}${ext}`);
+            callback(null, `${name}${ext}`);
         }
     })
 });
@@ -34,8 +40,9 @@ module.exports = class BoolJsMulter extends API.RouteMiddleware {
             files: true
         });
     }
-    action(_instance, router, route) {
-        router.use('/static', sstatic('static'));
+    
+    action(instance, router, route) {
+        router.use('/static', new ServeStatic('static'));
         return multer.any();
     }
 
