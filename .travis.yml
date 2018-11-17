@@ -1,9 +1,16 @@
 language: node_js
-before_install: npm install -g npm@latest
+
 node_js:
-  - 4.0
-  - 5.0
-  - 6.0
+  - lts/*
+
 install:
-  - npm install bool.js
   - npm install
+  - npm install --no-save booljs@latest @booljs/express
+
+deploy:
+  provider: npm
+  email: hola@pablodorado.com
+  api_key: $NPM_API_KEY
+  on:
+    branch: master
+    tags: true
