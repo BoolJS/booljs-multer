@@ -1,6 +1,6 @@
 {
   "name": "@booljs/multer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "RouteMiddleware to allow developers support file uploads in their APIs",
   "main": "index.js",
   "scripts": {
