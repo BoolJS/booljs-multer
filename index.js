@@ -14,14 +14,14 @@ var multer = new Multer({
             const destination = join(PATH, 'static');
             
             try {
-                const stat = await FS.stat(destination);
-                if (!stat.isDirectory()) {
+                await FS.stat(destination);
+                return callback(null, destination);
+            } catch (error) {
+                if (error.code === 'ENOENT') {
                     await FS.mkdir(destination);
                     return callback(null, destination);
                 }
                 
-                return callback(null, destination);
-            } catch (error) {
                 return callback(error);
             }
         },
