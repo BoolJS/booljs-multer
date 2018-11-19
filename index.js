@@ -2,7 +2,6 @@
 
 const API = require('@booljs/api');
 const Multer = require('multer');
-const ServeStatic = require('serve-static');
 
 const FS = require('fs').promises;
 const { extname, join } = require('path');
@@ -12,7 +11,7 @@ var multer = new Multer({
     storage: Multer.diskStorage({
         async destination (request, file, callback) {
             const destination = join(PATH, 'static');
-            
+
             try {
                 await FS.stat(destination);
                 return callback(null, destination);
@@ -21,7 +20,7 @@ var multer = new Multer({
                     await FS.mkdir(destination);
                     return callback(null, destination);
                 }
-                
+
                 return callback(error);
             }
         },
@@ -35,14 +34,13 @@ var multer = new Multer({
 });
 
 module.exports = class BoolJsMulter extends API.RouteMiddleware {
-    constructor(){
+    constructor () {
         super('booljs-multer', 'mandatory', {
             files: true
-        });
+        }, [ require.resolve('./static') ]);
     }
-    
-    action(instance, router, route) {
-        router.use('/static', new ServeStatic('static'));
+
+    action (instance, router, route) {
         return multer.any();
     }
 
